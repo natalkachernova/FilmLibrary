@@ -20,7 +20,7 @@ class film_base:
         self.season = season
         self.series = series
     
-    def __str__(self) -> str:
+    def __str__(self):
         return f' {self.year} {self.name} \t Genre: {self.genre}.  Views: {self.number_of_views}'
 
     #Збільшення кількості переглядів на 1
@@ -30,25 +30,25 @@ class film_base:
     #Виводить список фільмів
     def get_movies():
         print("List of movies")
-        list_by_name = sorted(films, key=lambda film_base: film_base.name)  #Сортування фільмів за назвою
-        for i in range(len(films)):
-            if (list_by_name[i].type == 'f'):
-                print(film_base.__str__(list_by_name[i])) 
+        list_by_name = sorted(films, key=lambda film: film.name)  #Сортування фільмів за назвою
+        for film in list_by_name:
+            if (film.type == 'f'):
+                print(film) 
     
     #Виводить список серіалів
     def get_series():
         print("List of series")
-        list_by_name = sorted(films, key=lambda film_base: film_base.name)  #Сортування серіалів за назвою
-        for i in range(len(films)):
-            if (list_by_name[i].type == 's'):
-                print(film_base.__str__(list_by_name[i]))
+        list_by_name = sorted(films, key=lambda film: film.name)  #Сортування серіалів за назвою
+        for film in list_by_name:
+            if (film.type == 's'):
+                print(film)
 
     #Пошук фільму чи серіалу за назвою
     def search():
         movie_name = input("Enter the name of the movie or series to search: ")
-        for i in range(len(films)):
-            if movie_name == films[i].name:
-                print(film_base.__str__(films[i]))
+        for film in films:
+            if movie_name == film.name:
+                print(film)
 
     #Збереження фільмотеки у файл films.csv
     def save_films_to_csv():
@@ -56,14 +56,14 @@ class film_base:
             fieldnames = ['type', 'name', 'year', 'genre', 'number_of_views', 'season', 'series']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
-            for i in range(len(films)):
-                writer.writerow({'type': films[i].type,
-                                'name': films[i].name,
-                                'year': films[i].year, 
-                                'genre': films[i].genre, 
-                                'number_of_views': films[i].number_of_views,
-                                'season': films[i].season, 
-                                'series': films[i].series})
+            for film in films:
+                writer.writerow({'type': film.type,
+                                'name': film.name,
+                                'year': film.year, 
+                                'genre': film.genre, 
+                                'number_of_views': film.number_of_views,
+                                'season': film.season, 
+                                'series': film.series})
 
     #Завантаження фільмотеки з файлу films.csv
     def load_films_from_csv():
@@ -82,17 +82,17 @@ class film_base:
     #Перегляд фільму або серіалу
     def play_film():
         name_of_film = input("Enter the name of the movie or series to watch: ")
-        for i in range(len(films)):
-            if name_of_film == films[i].name:
-                if (films[i].type == 'f'):
-                    print(f'Now watching a movie {films[i].name} \n Year: {films[i].year} \n Genre: {films[i].genre}')
-                    film_base.increasing_number_of_views(films[i])
-                    print(f'Finished watching the movie {films[i].name} ({films[i].year})')
-                elif (films[i].type == 's'):
-                    print(f'Now watching the series {films[i].name} \n Year: {films[i].year} \n Genre: {films[i].genre}')
-                    print(f'Season: {films[i].season}\nSeries: {films[i].series}')
-                    film_base.increasing_number_of_views(films[i])
-                    print(f'Finished watching the series {films[i].name} S{films[i].season}E{films[i].series}')
+        for film in films:
+            if name_of_film == film.name:
+                if (film.type == 'f'):
+                    print(f'Now watching a movie {film.name} \n Year: {film.year} \n Genre: {film.genre}')
+                    film_base.increasing_number_of_views(film)
+                    print(f'Finished watching the movie {film.name} ({film.year})')
+                elif (film.type == 's'):
+                    print(f'Now watching the series {film.name} \n Year: {film.year} \n Genre: {film.genre}')
+                    print(f' Season: {film.season}\n Series: {film.series}')
+                    film_base.increasing_number_of_views(film)
+                    print(f'Finished watching the series {film.name} S{film.season}E{film.series}')
 
 command_string = ""
 film_base.load_films_from_csv()     #Завантаження файлу при запуску програми
